@@ -27,3 +27,5 @@ understanding tree structures.
    git clone https://github.com/mounir19000/binary-tree-visualization-c.git
    cd binary-tree-visualization-c
    ```
+
+![Tree Visualization Example](Preview.png)
