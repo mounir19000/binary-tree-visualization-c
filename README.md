@@ -28,4 +28,8 @@ understanding tree structures.
    cd binary-tree-visualization-c
    ```
 
-![Tree Visualization Example](Preview.png)
+## Previews
+
+![Tree Visualization Example 1](Pics/Preview1.png)
+
+![Tree Visualization Example 2](Pics/Preview2.png)

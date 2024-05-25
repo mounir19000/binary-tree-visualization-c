@@ -33,17 +33,27 @@ int treeHeight(struct Node *root)
 }
 
 // Helper function to fill the 3D array with tree nodes
-void fillArray(struct Node *root, char ***arr, int row, int col, int width, int arrBegining)
+void fillArray(struct Node *root, char ***arr, int row, int col, int width, int arrBegining, int height)
 {
-    if (root == NULL)
+    if (row < height)
+    {
+        if (root == NULL)
+        {
+            sprintf(arr[row][col + arrBegining], " /// ");
+            return;
+        }
+
+        // Place the current node
+        sprintf(arr[row][col + arrBegining], "%.5d", root->data);
+
+        // Fill left and right subtrees
+        fillArray(root->left, arr, row + 1, width / 4, width / 2, arrBegining, height);
+        fillArray(root->right, arr, row + 1, width / 4, width / 2, col + arrBegining + 1, height);
+    }
+    else
+    {
         return;
-
-    // Place the current node
-    sprintf(arr[row][col + arrBegining], "%.5d", root->data);
-
-    // Fill left and right subtrees
-    fillArray(root->left, arr, row + 1, width / 4, width / 2, arrBegining);
-    fillArray(root->right, arr, row + 1, width / 4, width / 2, col + arrBegining + 1);
+    }
 }
 
 // Function to print the 3D array representing the tree
@@ -68,7 +78,7 @@ void printTree(struct Node *root)
     }
 
     // Fill the array with tree nodes
-    fillArray(root, arr, 0, width / 2, width, 0);
+    fillArray(root, arr, 0, width / 2, width, 0, height);
 
     // Print the 3D array
     for (int i = 0; i < height; i++)
@@ -85,24 +95,34 @@ void printTree(struct Node *root)
             bool isUnderscor = false;
             for (int j = 0; j < width; j++)
             {
+                // checking the next line if it's a node (the left node of the the line we are in) so we start the underscor
                 if (!isUnderscor && arr[i + 1][j][2] != ' ')
                 {
                     isUnderscor = true;
                     printf("  ---");
                 }
+                // checking the next line if it's a node (the right node of the the line we are in) so we stop the underscor
                 else if (isUnderscor && arr[i + 1][j][2] != ' ')
                 {
                     printf("---  ");
                     isUnderscor = false;
                 }
+                // checking the current line if it's an empty node to avoid printing a pipe
+                else if (arr[i][j][2] == '/')
+                {
+                    printf("     ");
+                }
+                // checking the current line if it's a node to print a pipe
                 else if (arr[i][j][2] != ' ')
                 {
                     printf("  |  ");
                 }
+                // it's the empty space between the nodes
                 else if (isUnderscor)
                 {
                     printf("-----");
                 }
+                // it's the empty space between the nodes the right one of a node and the left one of the next node horizenatlly
                 else
                 {
                     printf("     ");
@@ -132,14 +152,10 @@ int main()
     root->right = createNode(3);
     root->left->left = createNode(4);
     root->left->right = createNode(5);
-    root->right->left = createNode(6);
     root->right->right = createNode(7);
     root->left->left->left = createNode(8);
     root->left->left->right = createNode(9);
     root->left->right->left = createNode(10);
-    root->left->right->right = createNode(11);
-    root->right->left->left = createNode(12);
-    root->right->left->right = createNode(13);
     root->right->right->left = createNode(14);
     root->right->right->right = createNode(15);
 
